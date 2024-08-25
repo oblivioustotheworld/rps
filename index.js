@@ -1,64 +1,93 @@
+const btn1=document.querySelector('.rock');
+const btn=document.querySelector('.paper');
+const btn3=document.querySelector('.sci');
+const dis=document.querySelector('.display');
+const p=document.createElement('p');
+const p1=document.createElement('p');
+
+btn1.addEventListener("click",(e)=>playRound('rock'));
+btn.addEventListener("click",(e)=>playRound('paper'));
+btn3.addEventListener("click",(e)=>playRound('scissor'));
+
 let humanScore=0;
 let computerScore=0;
+let round=0;
+
+var compChoice=getComputerChoice();
 function getComputerChoice(){
     let randNum=Math.round(Math.random()*2)+1;
     if(randNum===1){
-        return "rock";
+        return 'rock';
     }
     else if(randNum===2){
-        return "paper";
+        return 'paper';
     }
     else{
-        return "scissor"
+        return 'scissor'
     }
 }
+function playRound(move){
 
-function getHumanChoice(){
-    let choice=prompt("enter your move");
-    choice=choice.toLowerCase();
-    if(choice==='rock'||choice==='paper'||choice==='scissor'){
-        return choice; 
+    
+    switch(move){
+        case('rock'):{
+            if(compChoice==='rock'){
+                console.log('tie');
+            }
+            else if(compChoice==='paper'){
+                console.log('lose');
+                computerScore++;
+            }
+            else{
+                console.log('winner');
+                humanScore++;
+            }
+            break;
+        }
+        case('paper'):{
+            if(compChoice==='paper'){
+                console.log('tie');
+            }
+            else if(compChoice==='rock'){
+                console.log('winner');
+                humanScore+2;
+            }
+            else{
+                console.log('lose');
+                computerScore++;
+            }
+            break;
+            
+        }
+        default:{
+            if(compChoice==='paper'){
+                console.log('winner');
+                humanScore++;
+            }
+            else if(compChoice==='rock'){
+                console.log('lose');
+                computerScore++;
+            }
+            else{
+               
+                console.log('tie');
+            }break;
+         
+        }
+       
+    }
+    if(humanScore===computerScore){
+        p1.textContent='TIE'
+    }
+    else if(humanScore>computerScore){
+        p1.textContent='you are the winner'
     }
     else{
-        alert('please enter a vaild move');
+        p1.textContent='The computer is the winner'
     }
+    p.textContent=`human score ${humanScore} and computer score ${computerScore}`;
+  
+  
 }
-let humanChoice=getHumanChoice;
-let compChoice=getComputerChoice;
-function playRound(human,comp){
-    if(human===comp){
-        console.log('tie');
-    }
-    else if(human==='rock'&&comp==='paper'){
-        console.log("you lose");
-        computerScore++;
-    }
-    else if(human==='paper'&&comp==='scissor'){
-        console.log("you lose");
-        computerScore++;
-    }
-    else if(human==='scissor'&&comp==='rock'){
-        console.log("you lose");
-        computerScore++;
-    }
-    else if(human==='paper'&&comp==='rock'){
-        console.log("you win");
-        humanScore++;
-    }
-    else if(human==='scissor'&&comp==='paper'){
-        console.log("you win");
-        humanScore++;
-    }
-   
-    else if(human==='rock'&&comp==='scissor'){
-        console.log("you win");
-        humanScore++;
-    }
-}
-
-function playGame(){
-   for(let i=0;i<=5;i++){
-    playRound(humanChoice(),compChoice());
-   }
-}
-playGame();
+dis.appendChild(p);
+dis.appendChild(p1);
